@@ -49,7 +49,7 @@ export const UserAuthContextProvider = ({ children }) => {
     try {
       alert("Logout");
       signOut(auth);
-      router.push("/login");
+      router.push("/Login");
     } catch (e) {
       console.log(e);
     }

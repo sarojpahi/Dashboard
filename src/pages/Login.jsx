@@ -1,6 +1,7 @@
 import { AuthVerify } from "@/Components/AuthVerify";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+require("@solana/wallet-adapter-react-ui/styles.css");
 import React from "react";
 
 const Login = () => {
