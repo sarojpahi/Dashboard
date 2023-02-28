@@ -52,11 +52,8 @@ const index = () => {
           </div>
           <ul>
             {data.map((el) => (
-              <Link href={`Topics/${el.id}`}>
-                <li
-                  key={el.id}
-                  className="bg-gray-50 hover:bg-gray-100 rounded-lg p-2 my-3 grid  md:grid-cols-cus sm:grid-cols-3 grid-cols-2 gap-5 items-center justify-between cursor-pointer"
-                >
+              <Link key={el.id} href={`Topics/${el.id}`}>
+                <li className="bg-gray-50 hover:bg-gray-100 rounded-lg p-2 my-3 grid  md:grid-cols-cus sm:grid-cols-3 grid-cols-2 gap-5 items-center justify-between cursor-pointer">
                   <p>{el.id}</p>
                   <p className="truncate">{el.topic}</p>
                   <p className="text-gray-50 font-semibold text-center hidden md:grid">
