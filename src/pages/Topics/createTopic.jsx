@@ -1,7 +1,7 @@
 import { Headers } from "@/Components/Headers";
 import React, { useEffect, useRef, useState } from "react";
 
-const createTopic = () => {
+const CreateTopic = () => {
   const [topic, setTopic] = useState("");
   const formref = useRef(null);
 
@@ -51,4 +51,4 @@ const createTopic = () => {
   );
 };
 
-export default createTopic;
+export default CreateTopic;
