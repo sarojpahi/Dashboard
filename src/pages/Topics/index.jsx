@@ -44,7 +44,7 @@ const index = () => {
       </div>
       <div className="lg:p-4 p-2">
         <div className="w-full m-auto lg:p-4 p-2 border rounded-lg bg-white">
-          <div className="my-3 p-2 grid md:grid-cols-cus sm:grid-cols-3 grid-cols-2 items-center gap-5 justify-between cursor-pointer">
+          <div className="my-3 p-2 grid md:grid-cols-cus sm:grid-cols-3 grid-cols-2 items-center gap-5 justify-between cursor-default">
             <span className="whitespace-nowrap">Topic ID</span>
             <span>Topic</span>
             <span className="text-center hidden md:grid">Status</span>
