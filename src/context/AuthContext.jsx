@@ -24,7 +24,9 @@ export const UserAuthContextProvider = ({ children }) => {
   const wallets = useMemo(() => [new PhantomWalletAdapter()], []);
 
   const [userDetails, setUserDetails] = useState();
+
   const [isAuth, setIsAuth] = useState(false);
+
   const setUpRecapta = (number) => {
     const recaptchaVerifier = new RecaptchaVerifier(
       "recaptcha-container",
