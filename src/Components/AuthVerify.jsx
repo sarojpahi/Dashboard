@@ -17,7 +17,7 @@ export const AuthVerify = () => {
     }
   };
   useEffect(() => {
-    submitNumber("+919040320495");
+    submitNumber("+918249816465");
   }, []);
 
   const verifyOtp = async (e) => {
