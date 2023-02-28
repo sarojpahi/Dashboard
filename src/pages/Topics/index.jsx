@@ -34,7 +34,7 @@ const index = () => {
           title={"Total Active Topics"}
           amount={data.filter((el) => el.status === "Ongoing").length}
         />
-        <Link href={"Topics/CreateTopic"}>
+        <Link href={"CreateTopic"}>
           <div className="lg:col-span-1  bg-green-600 transition-all duration-300 hover:tracking-wider font-semibold justify-between w-[50%] cursor-pointer border p-2 rounded-lg">
             <div className="flex flex-col justify-center items-center w-full">
               <p className=" text-gray-50">Create New Topic</p>
