@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import {
   signOut,
   onAuthStateChanged,
@@ -6,25 +6,16 @@ import {
   signInWithPhoneNumber,
 } from "firebase/auth";
 import { auth } from "@/Config/firebase.config";
-import {
-  ConnectionProvider,
-  WalletProvider,
-} from "@solana/wallet-adapter-react";
-import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-import { clusterApiUrl } from "@solana/web3.js";
-import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
 import { useRouter } from "next/router";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 export const AuthContext = createContext();
+
 export const UserAuthContextProvider = ({ children }) => {
   const router = useRouter();
-
-  const endpoint = useMemo(() => clusterApiUrl("devnet"), []);
-
-  const wallets = useMemo(() => [new PhantomWalletAdapter()], []);
+  const wallet = useWallet();
 
   const [userDetails, setUserDetails] = useState();
-
   const [isAuth, setIsAuth] = useState(false);
 
   const setUpRecapta = (number) => {
@@ -44,29 +35,27 @@ export const UserAuthContextProvider = ({ children }) => {
     });
     return () => unsubscribe();
   }, [isAuth]);
-  console.log(isAuth);
+
   const logout = () => {
-    try {
-      alert("Logout");
-      signOut(auth);
-      router.push("/Login");
-    } catch (e) {
-      console.log(e);
-    }
+    alert("Logout");
+    signOut(auth);
+    wallet
+      .disconnect()
+      .then(() => router.push("/Login"))
+      .catch((e) => console.log(e));
   };
+  console.log(wallet.connected);
+  useEffect(() => {
+    if (!wallet.connected && !isAuth) router.push("/Login");
+  }, [wallet.connected]);
+
   const value = {
     logout,
     setUpRecapta,
     setUserDetails,
     userDetails,
+    isAuth,
+    wallet,
   };
-  return (
-    <AuthContext.Provider value={value}>
-      <ConnectionProvider endpoint={endpoint}>
-        <WalletProvider wallets={wallets}>
-          <WalletModalProvider>{children} </WalletModalProvider>
-        </WalletProvider>
-      </ConnectionProvider>
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
