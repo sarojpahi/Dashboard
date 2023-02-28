@@ -8,6 +8,7 @@ import { useEffect, useMemo, useState } from "react";
 import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
 import { clusterApiUrl } from "@solana/web3.js";
 import { Sidebar } from "@/Components/Sidebar";
+import { UserAuthContextProvider } from "@/context/AuthContext";
 require("@solana/wallet-adapter-react-ui/styles.css");
 
 export default function App({ Component, pageProps }) {
@@ -19,17 +20,19 @@ export default function App({ Component, pageProps }) {
     setMounted(true);
   }, []);
   return (
-    <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
-        <WalletModalProvider>
-          {mounted && (
-            <div className="min-h-screen bg-gray-100">
-              <Sidebar />
-              <Component {...pageProps} />
-            </div>
-          )}
-        </WalletModalProvider>
-      </WalletProvider>
-    </ConnectionProvider>
+    <UserAuthContextProvider>
+      <ConnectionProvider endpoint={endpoint}>
+        <WalletProvider wallets={wallets} autoConnect>
+          <WalletModalProvider>
+            {mounted && (
+              <div className="min-h-screen bg-gray-100">
+                <Sidebar />
+                <Component {...pageProps} />
+              </div>
+            )}
+          </WalletModalProvider>
+        </WalletProvider>
+      </ConnectionProvider>
+    </UserAuthContextProvider>
   );
 }
