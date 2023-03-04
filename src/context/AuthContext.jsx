@@ -14,9 +14,14 @@ export const AuthContext = createContext();
 export const UserAuthContextProvider = ({ children }) => {
   const router = useRouter();
   const wallet = useWallet();
+  const [isAuth, setIsAuth] = useState(false);
+
+  useEffect(() => {
+    const authState = localStorage.getItem("isAuth");
+    if (authState) setIsAuth(true);
+  }, [isAuth]);
 
   const [userDetails, setUserDetails] = useState();
-  const [isAuth, setIsAuth] = useState(false);
 
   const setUpRecapta = (number) => {
     const recaptchaVerifier = new RecaptchaVerifier(
@@ -30,22 +35,24 @@ export const UserAuthContextProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
       setUserDetails(currentuser);
-      if (currentuser) setIsAuth(true);
-      else setIsAuth(false);
     });
     return () => unsubscribe();
   }, [isAuth]);
 
   const logout = () => {
     alert("Logout");
+    setIsAuth(false);
+    localStorage.removeItem("isAuth");
     signOut(auth);
     wallet
       .disconnect()
       .then(() => router.push("/Login"))
       .catch((e) => console.log(e));
   };
-  console.log(wallet.connected);
   useEffect(() => {
+    console.log("wallet", wallet.connected);
+    console.log("authState", isAuth);
+
     if (!wallet.connected && !isAuth) router.push("/Login");
   }, [wallet.connected]);
 

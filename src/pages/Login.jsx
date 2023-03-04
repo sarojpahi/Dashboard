@@ -6,7 +6,6 @@ import React from "react";
 
 const Login = () => {
   const wallet = useWallet();
-  console.log(wallet);
 
   if (wallet.connected) return <AuthVerify />;
   return (

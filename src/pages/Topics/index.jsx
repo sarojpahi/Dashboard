@@ -1,30 +1,26 @@
 import { Card } from "@/Components/Card";
 import { Headers } from "@/Components/Headers";
+import axios from "axios";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const data = [
-  {
-    id: 1,
-    topic: "RandomRandomRandomRandomRandomRandomRandomRandom",
-    status: "Completed",
-    totalBet: "500",
-  },
-  {
-    id: 2,
-    topic: "Random",
-    topic: "Random",
-    status: "Ongoing",
-    totalBet: "500",
-  },
-  {
-    id: 3,
-    topic: "Random",
-    status: "Ongoing",
-    totalBet: "500",
-  },
-];
+const baseUrl = process.env.BASE_URL;
+console.log("baseUrl", baseUrl);
 const index = () => {
+  const [data, setData] = useState([]);
+  const fetchData = () => {
+    axios
+      .get(`${baseUrl}/topics`)
+      .then((data) => {
+        setData(data.data);
+        console.log(data.data);
+      })
+      .catch((e) => console.log(e));
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <div className="ml-16">
       <Headers />
@@ -51,20 +47,20 @@ const index = () => {
             <span className="text-center hidden md:grid">Total Bets</span>
           </div>
           <ul>
-            {data.map((el) => (
-              <Link key={el.id} href={`Topics/${el.id}`}>
+            {data.map((el, i) => (
+              <Link key={i} href={`Topics/${el.id}`}>
                 <li className="bg-gray-50 hover:bg-gray-100 rounded-lg p-2 my-3 grid  md:grid-cols-cus sm:grid-cols-3 grid-cols-2 gap-5 items-center justify-between cursor-pointer">
-                  <p>{el.id}</p>
-                  <p className="truncate">{el.topic}</p>
+                  <p className="truncate">{el["_id"]["$oid"]}</p>
+                  <p className="truncate">{el.topic_name}</p>
                   <p className="text-gray-50 font-semibold text-center hidden md:grid">
                     <span
                       className={
-                        el.status === "Completed"
+                        el.topic_is_running
                           ? "bg-blue-400 p-2 rounded-lg"
                           : "bg-green-400 p-2 rounded-lg"
                       }
                     >
-                      {el.status}
+                      {el.topic_is_running ? "Completed" : "Ongoing"}
                     </span>
                   </p>
                   <p className="text-center hidden md:grid">

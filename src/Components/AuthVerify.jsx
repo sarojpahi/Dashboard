@@ -26,6 +26,7 @@ export const AuthVerify = () => {
       const res = await confirmObj.confirm(otp);
       if (res.user.accessToken) {
         alert("Login successfully");
+        localStorage.setItem("isAuth", true);
         router.push("/");
       } else alert("Invalid Otp");
     } catch (error) {

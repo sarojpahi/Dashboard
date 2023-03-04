@@ -2,8 +2,20 @@ import { Headers } from "@/Components/Headers";
 import React, { useEffect, useRef, useState } from "react";
 
 const CreateTopic = () => {
-  const [topic, setTopic] = useState("");
+  const [topic, setTopic] = useState({
+    topic_name: "",
+    topic_side_a: "yes",
+    topic_side_b: "no",
+    topic_is_running: true,
+    topic_max_bet: 10,
+    topic_min_bet: 1,
+  });
   const formref = useRef(null);
+
+  const handleFormData = (e) => {
+    const { name, value } = e.target;
+    setTopic({ ...topic, [name]: value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,8 +40,22 @@ const CreateTopic = () => {
               className="bg-gray-200 shadow-inner rounded-l p-2 flex-1"
               type="text"
               placeholder="Enter Topic Name"
-              onChange={(e) => setTopic(e.target.value)}
+              onChange={handleFormData}
             />
+            <div className="flex w-full gap-4">
+              <input
+                className="bg-gray-200 shadow-inner rounded-l p-2 flex-1"
+                type="number"
+                placeholder="Min Bet"
+                onChange={handleFormData}
+              />{" "}
+              <input
+                className="bg-gray-200 shadow-inner rounded-l p-2 flex-1"
+                type="number"
+                placeholder="Max Bet"
+                onChange={handleFormData}
+              />
+            </div>
             <input
               type="submit"
               value={"Create Topic"}
